@@ -23,3 +23,8 @@ node_modules/
 npm-debug.log*
 yarn-debug.log*
 frontend/yarn-error.log
+MREN-SHOP/
+backend/app/Middleware/
+backend/frontend/
+frontend/debug.log
+node

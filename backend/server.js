@@ -1,37 +1,30 @@
-const express = require("express");
-const dotenv = require('dotenv');
-const morgan = require('morgan');
+import express from 'express';
+import dotenv from 'dotenv';
+import connectDB from './config/database.js';
+import color from 'colors';
+import prodctRoutes from './routes/productRoutes.js';
+import { notFound, errorHandler } from './app/Middleware/ErrorMiddleware.js';
 
-require = require("esm")(module)
-module.exports = require("./server.js")
-
-import products from './storage/products';
-dotenv.config({path: './.env'});
+dotenv.config();
+connectDB();
 
 const app = express();
 
-app.get('/api/v1/products', (req, res) => {
-   res.json(products)
-});
+app.use('/api/v1/products', prodctRoutes);
 
-app.get('/api/v1/product/:id', (req, res) => {
-    const product = products.find((pr) => pr._id === req.params.id);
-    res.json(product)
-});
+
+app.use(notFound);
+app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
 
-const server = app.listen(PORT, console.log(`Server running in ${process.env.NODE_ENV} mode on port ${PORT}`));
+const server = app.listen(PORT, console.log(`Server running in ${process.env.NODE_ENV} mode on port ${PORT}`.yellow));
 
 // Handle unhandle promise rejections
 process.on('unhandledRejection', (err, promise) => {
     console.log(`Error: ${err.message}`);
     //Close Server and Exite
     server.close(() => process.exit(1));
-});
-
-export function log(msg) {
-    console.log(msg);
-}
+})
 
 

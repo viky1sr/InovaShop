@@ -1,7 +1,7 @@
 import React from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 
-const FooterComponent = (props) => {
+const FooterComponent = () => {
     return (
         <footer>
             <Container>

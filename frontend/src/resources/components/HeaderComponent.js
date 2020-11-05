@@ -2,7 +2,7 @@ import React from 'react';
 import { Navbar, Nav, Container } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 
-const HeaderComponent = (props) => {
+const HeaderComponent = () => {
     return (
         <Navbar bg="dark" variant="dark" expand="lg" collapseOnSelect >
             <Container>
