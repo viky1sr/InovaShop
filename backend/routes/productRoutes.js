@@ -9,7 +9,13 @@ import Product from '../app/Models/Product.js';
 router.get('/', expressAsyncHandler( async (req, res) => {
     const products = await Product.find({})
 
-    res.json(products)
+    if (products) {
+        res.json(products)
+    } else {
+        res.status(401)
+        throw new Error('Not Authorized')
+    }
+
 }));
 
 // @desc Fetch products by id
