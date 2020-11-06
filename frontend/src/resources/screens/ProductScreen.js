@@ -10,7 +10,7 @@ import MessageBoxComponent from "../components/MessageBoxComponent";
 const ProductScreen = ({ match, history }) => {
     const dispatch = useDispatch();
 
-    const [ qty, setQty ] = useState(0);
+    const [ qty, setQty ] = useState(1);
 
     // name @state.productDetails harus sama di store.js
     const productDetails = useSelector( state => state.productDetails)
