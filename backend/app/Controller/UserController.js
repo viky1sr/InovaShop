@@ -7,15 +7,14 @@ const register = expressAsyncHandler(async (req, res) => {
 
     //Check Password
     if (password !== confirm_password) {
-        return res.status(400).json({
-            success: 400,
-            messages: "Password not match"
-        });
+        res.status(400)
+        throw new Error('Password do not match')
     }
 
     const userExists = await UserDB.findOne({ email });
     if ( userExists ) {
-        res.status(400).send("User already registered.")
+        res.status(400)
+        throw new Error('User already exists')
     }
 
     const user = await UserDB.create({

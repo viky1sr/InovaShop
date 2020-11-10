@@ -1,11 +1,26 @@
 import mongoose from 'mongoose'
 import bcrypt from 'bcryptjs'
+import validate from 'mongoose-validator';
+
+let nameValidator = [
+    validate({
+        validator: 'isLength',
+        arguments: [3, 50],
+        message: 'Name should be between {ARGS[0]} and {ARGS[1]} characters',
+    }),
+    // validate({
+    //     validator: 'isAlphanumeric',
+    //     passIfEmpty: true,
+    //     message: 'Name should contain alpha-numeric characters only',
+    // }),
+]
 
 const userSchema = mongoose.Schema(
     {
         name: {
             type: String,
             required: true,
+            validate:nameValidator
         },
         email: {
             type: String,
@@ -19,11 +34,12 @@ const userSchema = mongoose.Schema(
         },
         password: {
             type: String,
-            required: [true,'Please add a password'],
+            required: true,
             minlength: 6,
-            // match: [
-            //     /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@$!%*#?&-.])[0-9a-zA-Z@$!%*#?&]{8,}$/, 'Your password is so weak'
-            // ],
+            // if u want seeder data please comment this match
+            match: [
+                /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@$!%*#?&-.])[0-9a-zA-Z@$!%*#?&]{8,}$/, 'Your password is so weak'
+            ],
             select: false
         },
         isAdmin: {
@@ -50,6 +66,6 @@ userSchema.pre('save', async function (next) {
     this.password = await bcrypt.hash(this.password, salt)
 })
 
-const User = mongoose.model('User', userSchema)
+const User = mongoose.model('User', userSchema);
 
 export default User
