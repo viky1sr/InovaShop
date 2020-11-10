@@ -2,7 +2,8 @@ import express from 'express';
 import dotenv from 'dotenv';
 import connectDB from './config/database.js';
 import color from 'colors';
-import prodctRoutes from './routes/productRoutes.js';
+import productRoutes from './routes/productRoutes.js';
+import userRoutes from './routes/userRoutes.js';
 import { notFound, errorHandler } from './app/Middleware/ErrorMiddleware.js';
 
 dotenv.config();
@@ -10,7 +11,10 @@ connectDB();
 
 const app = express();
 
-app.use('/api/v1/products', prodctRoutes);
+app.use(express.json())
+
+app.use('/api/v1/products', productRoutes);
+app.use('/api/v1/users', userRoutes);
 
 
 app.use(notFound);

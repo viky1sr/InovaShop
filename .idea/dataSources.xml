@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
+    <data-source source="LOCAL" name="InovaShop@cluster0.8f1np.mongodb.net" uuid="3e3025d0-384a-4573-aaac-ae8095102366">
+      <driver-ref>mongo</driver-ref>
+      <synchronize>true</synchronize>
+      <configured-by-url>true</configured-by-url>
+      <jdbc-driver>com.dbschema.MongoJdbcDriver</jdbc-driver>
+      <jdbc-url>mongodb+srv://viky1st:A1l1f123@cluster0.8f1np.mongodb.net/InovaShop?retryWrites=true&amp;w=majority</jdbc-url>
+    </data-source>
+  </component>
+</project>
