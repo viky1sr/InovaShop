@@ -1,9 +1,14 @@
 import {
+    USER_DETAILS_FAIL,
+    USER_DETAILS_REQUEST,
+    USER_DETAILS_SUCCESS,
     USER_LOGIN_FAIL,
     USER_LOGIN_REQUEST,
     USER_LOGIN_SUCCESS,
-    USER_LOGOUT, USER_REGISTER_FAIL,
-    USER_REGISTER_REQUEST, USER_REGISTER_SUCCESS
+    USER_LOGOUT,
+    USER_REGISTER_FAIL,
+    USER_REGISTER_REQUEST,
+    USER_REGISTER_SUCCESS, USER_UPDATE_FAIL, USER_UPDATE_REQUEST, USER_UPDATE_SUCCESS
 } from "../constants/UserConstants";
 import axios from 'axios';
 import {PRODUCT_LIST_FAILS} from "../constants/ProductConstants";
@@ -86,3 +91,70 @@ export const register = ( name, email, password, confirm_password) => async (dis
     }
 }
 
+export const getUserDetails = (id) => async (dispatch, getState) => {
+    try {
+        dispatch({
+            type: USER_DETAILS_REQUEST
+        });
+
+        const { userLogin: { userInfo } } = getState();
+
+        // console.log(userInfo.data.token)
+
+        const config = {
+            headers: {
+                'Content-Type' : 'application/json',
+                'Authorization' : `Bearer ${userInfo.data.token}`
+            }
+        }
+
+        const { data } = await axios.get(`/api/v1/users/${id}`, config );
+
+        dispatch({
+            type: USER_DETAILS_SUCCESS,
+            payload: data
+        });
+
+    } catch (e) {
+        dispatch({
+            type: USER_DETAILS_FAIL,
+            payload: e.response && e.response.data.message
+                ? e.response.data.message
+                : e.message
+        });
+    }
+}
+
+export const updateUserProfile = (user) => async (dispatch, getState) => {
+    try {
+        dispatch({
+            type: USER_UPDATE_REQUEST
+        });
+
+        const { userLogin: { userInfo } } = getState();
+
+        // console.log(userInfo.data.token)
+
+        const config = {
+            headers: {
+                'Content-Type' : 'application/json',
+                'Authorization' : `Bearer ${userInfo.data.token}`
+            }
+        }
+
+        const { data } = await axios.put(`/api/v1/users/profile`,user, config );
+
+        dispatch({
+            type: USER_UPDATE_SUCCESS,
+            payload: data
+        });
+
+    } catch (e) {
+        dispatch({
+            type: USER_UPDATE_FAIL,
+            payload: e.response && e.response.data.message
+                ? e.response.data.message
+                : e.message
+        });
+    }
+}

@@ -44,3 +44,7 @@ h2 {
 .carousel a {
   margin: 0 auto;
 }
+
+.rounded-lg {
+  border-radius: 0.75rem;
+}

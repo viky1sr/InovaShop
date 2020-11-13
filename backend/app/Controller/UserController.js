@@ -25,14 +25,14 @@ const register = expressAsyncHandler(async (req, res) => {
 
     if(user) {
         res.status(200).json({
-            "message": "Success Register",
-            data : {
+            message: "Success Register",
+            data: {
                 _id: user._id,
                 name: user.name,
                 email: user.email,
                 isAdmin: user.isAdmin,
                 token: generateToken(user._id)
-            },
+            }
         });
     } else {
         res.status(400)
@@ -51,14 +51,14 @@ const login = expressAsyncHandler(async (req, res) => {
 
     if ( user && (await user.matchPassword(password)) ) {
         res.json({
-            "message": "Success Login",
-            data : {
+            message: "Success Login",
+            data: {
                 _id: user._id,
                 name: user.name,
                 email: user.email,
                 isAdmin: user.isAdmin,
                 token: generateToken(user._id)
-            },
+            }
         });
     } else {
         res.status(401)
@@ -86,9 +86,44 @@ const getUserProfile = expressAsyncHandler(async (req, res) => {
     }
 });
 
+// @desc    UPDATE user profile
+// @route   PUT/PATCH /api/users/profile
+// @access  Private
+const updateUserProfile = expressAsyncHandler(async (req, res) => {
+    const user = await UserDB.findById(req.user._id)
+
+    if (user) {
+       user.name = req.body.name || user.name
+       user.email = req.body.email || user.email
+        if (req.body.password) {
+            user.password = req.body.password
+            if (req.body.password !== req.body.confirm_password) {
+                res.status(400)
+                throw new Error('Password do not match')
+            }
+        }
+
+        const updateUser = await user.save();
+
+        res.json({
+            message: "Success Update User",
+            _id: updateUser._id,
+            name: updateUser.name,
+            email: updateUser.email,
+            isAdmin: updateUser.isAdmin,
+            token: generateToken(updateUser._id)
+        });
+
+    } else {
+        res.status(404)
+        throw new Error('User not found')
+    }
+});
+
 export {
     register,
     login,
-    getUserProfile
+    getUserProfile,
+    updateUserProfile
 
 }
