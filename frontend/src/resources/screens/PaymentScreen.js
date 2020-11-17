@@ -19,14 +19,14 @@ const PaymentScreen = ({ history, location}) => {
 
     const dispatch = useDispatch();
 
-    const [paymentMethod, savePaymentMethod] = useState('PayPal');
+    const [paymentMethod, setPaymentMethod] = useState('PayPal');
 
     const submitHandler = (e) => {
         e.preventDefault()
         dispatch(savePaymentMethod(
-            history.push('/placeorder')
+            paymentMethod
         ));
-        history.push('/payment')
+        history.push('/placeorder')
     }
 
     return (

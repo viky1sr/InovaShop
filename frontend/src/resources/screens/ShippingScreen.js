@@ -30,7 +30,7 @@ const ShippingScreen = ({ history, location}) => {
 
     return (
             <FormContainerComponent>
-                <CheckOutComponent step1 step2 />
+                <CheckOutComponent step1 step2 step3 />
                 <h1>Shipping</h1>
                 <Form onSubmit={submitHandler}>
                     <Form.Group controlId='address'>
