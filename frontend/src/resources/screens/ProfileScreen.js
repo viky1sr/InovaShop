@@ -4,7 +4,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import MessageBoxComponent from '../components/MessageBoxComponent';
 import LoadingBoxComponent from '../components/LoadingBoxComponent';
 import {getUserDetails, register, updateUserProfile} from '../actions/UserActions';
-import FormContainerComponent from "../components/FormContainerComponent";
 
 const ProfileScreen = ({ history, location }) => {
     const [ name, setName ] = useState('');
