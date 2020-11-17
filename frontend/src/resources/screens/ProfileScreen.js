@@ -3,7 +3,8 @@ import { Form, Button, Row, Col} from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import MessageBoxComponent from '../components/MessageBoxComponent';
 import LoadingBoxComponent from '../components/LoadingBoxComponent';
-import { getUserDetails, updateUserProfile } from '../actions/UserActions';
+import {getUserDetails, register, updateUserProfile} from '../actions/UserActions';
+import FormContainerComponent from "../components/FormContainerComponent";
 
 const ProfileScreen = ({ history, location }) => {
     const [ name, setName ] = useState('');
@@ -15,13 +16,14 @@ const ProfileScreen = ({ history, location }) => {
     const dispatch = useDispatch();
 
     const userDetails = useSelector(state => state.userDetails);
-    const { loading, error, user } = userDetails
+    const { loading, user } = userDetails
 
     const userLogin = useSelector(state => state.userLogin);
     const { userInfo } = userLogin
 
     const userUpdate = useSelector(state => state.userUpdate);
-    const { success } = userUpdate
+    const { success, error } = userUpdate
+
 
     console.log()
 
@@ -39,22 +41,27 @@ const ProfileScreen = ({ history, location }) => {
         }
     },[dispatch, history, userInfo, user]);
 
+
     const submitHandler = (e) => {
         e.preventDefault()
-        if(password !== confirm_password) {
-            setMessage('Password do not match')
-        } else {
-            dispatch(updateUserProfile({ id: user._id, name, email, password }))
-        }
+        //DISPATCH REGISTER ( if not validasi in backend )
+        // if(password !== confirm_password) {
+        //     setMessage('Password do not match')
+        // } else {
+        //     dispatch(register(name, email, password, confirm_password))
+        // }
+
+        // DISPATCH REGISTER ( if do validasi in backend )
+        dispatch(updateUserProfile( { id: user._id, name, email, password, confirm_password } ))
     }
 
     return (
         <Row>
             <Col md={3}>
-                <h2>User Profile</h2>
+                <h1>Update Profile</h1>
                 {message && <MessageBoxComponent variant='danger'>{message}</MessageBoxComponent>}
                 {error && <MessageBoxComponent variant='danger'>{error}</MessageBoxComponent>}
-                {success && <MessageBoxComponent variant='success'>Success update profile</MessageBoxComponent>}
+                {success && <MessageBoxComponent variant='success'>Success Update Profile</MessageBoxComponent>}
                 {loading && <LoadingBoxComponent />}
                 <Form onSubmit={submitHandler}>
                     <Form.Group controlId='name'>
@@ -106,6 +113,7 @@ const ProfileScreen = ({ history, location }) => {
                 <h2> My Orders </h2>
             </Col>
         </Row>
+
     );
 }
 

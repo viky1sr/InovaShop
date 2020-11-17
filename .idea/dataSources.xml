@@ -8,5 +8,11 @@
       <jdbc-driver>com.dbschema.MongoJdbcDriver</jdbc-driver>
       <jdbc-url>mongodb+srv://viky1st:A1l1f123@cluster0.8f1np.mongodb.net/InovaShop?retryWrites=true&amp;w=majority</jdbc-url>
     </data-source>
+    <data-source source="LOCAL" name="@localhost" uuid="7bf43ce8-c036-4cdb-bc59-dbeb7cf29366">
+      <driver-ref>mongo</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>com.dbschema.MongoJdbcDriver</jdbc-driver>
+      <jdbc-url>mongodb://localhost:27017</jdbc-url>
+    </data-source>
   </component>
 </project>
