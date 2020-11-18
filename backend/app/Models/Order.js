@@ -25,7 +25,7 @@ const orderSchema = mongoose.Schema({
     },
     paymentMethod: {
         type: String,
-        require: true
+        required: true
     },
     paymentResult: {
        id: { type: String },
@@ -35,22 +35,26 @@ const orderSchema = mongoose.Schema({
     },
     taxPrice: {
         type: Number,
-        require: true,
+        required: true,
         default: 0.0
     },
     shippingPrice: {
         type: Number,
-        require: true,
+        required: true,
         default: 0.0
+    },
+    discountPrice : {
+      type: String,
+      default: null
     },
     totalPrice: {
         type: Number,
-        require: true,
+        required: true,
         default: 0.0
     },
     isPaid: {
         type: Boolean,
-        require: true,
+        required: true,
         default: false
     },
     paidAt: {
@@ -58,7 +62,7 @@ const orderSchema = mongoose.Schema({
     },
     isDelivered: {
         type: Boolean,
-        require: true,
+        required: true,
         default: false
     },
     deliveredAt: {

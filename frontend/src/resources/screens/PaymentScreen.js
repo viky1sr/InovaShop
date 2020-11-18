@@ -1,16 +1,12 @@
 import React, { useState } from 'react';
 import { Form, Button, Col } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import MessageBoxComponent from '../components/MessageBoxComponent';
-import LoadingBoxComponent from '../components/LoadingBoxComponent';
 import FormContainerComponent from "../components/FormContainerComponent";
-import {login} from "../actions/UserActions";
-import LoginScreen from "./LoginScreen";
 import { savePaymentMethod } from '../actions/cartActions';
 import CheckOutComponent from "../components/CheckOutComponent";
 
-const PaymentScreen = ({ history, location}) => {
-    const cart = useSelector(state => state.cart)
+const PaymentScreen = ({ history}) => {
+    const cart = useSelector((state) => state.cart)
     const { shippingAddress } = cart;
 
     if(!shippingAddress) {
@@ -45,7 +41,7 @@ const PaymentScreen = ({ history, location}) => {
                                     name='paymentMethod'
                                     value='PayPal'
                                     checked
-                                    onChange={(e) => savePaymentMethod(e.target.value)}
+                                    onChange={(e) => setPaymentMethod(e.target.value)}
                         />
                         <Form.Check type='radio'
                                     label='Stripe'
@@ -53,7 +49,7 @@ const PaymentScreen = ({ history, location}) => {
                                     name='paymentMethod'
                                     value='Stripe'
                                     checked
-                                    onChange={(e) => savePaymentMethod(e.target.value)}
+                                    onChange={(e) => setPaymentMethod(e.target.value)}
                         />
                     </Col>
                 </Form.Group>

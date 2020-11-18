@@ -20,10 +20,10 @@ RatingComponent.defaultProps = {
     color: 'yellow'
 }
 
-RatingComponent.propTypes = {
-    value: PropTypes.number.isRequired,
-    text: PropTypes.string.isRequired,
-    color: PropTypes.string,
-}
+// RatingComponent.propTypes = {
+//     value: PropTypes.number.isRequired,
+//     text: PropTypes.string.isRequired,
+//     color: PropTypes.string,
+// }
 
 export default RatingComponent;

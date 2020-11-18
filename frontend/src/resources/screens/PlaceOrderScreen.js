@@ -1,21 +1,23 @@
-import React, { useState } from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { Form, Col, Button, Row, Image, Card, ListGroup } from 'react-bootstrap';
+import { Col, Button, Row, Image, Card, ListGroup } from 'react-bootstrap';
 import MessageBoxComponent from '../components/MessageBoxComponent';
-import LoadingBoxComponent from '../components/LoadingBoxComponent';
 import CheckOutComponent from "../components/CheckOutComponent";
+import { createOrder } from "../actions/OrderActions";
 
-const PlaceOrderScreen = ({}) => {
+const PlaceOrderScreen = ({history}) => {
+    const dispatch = useDispatch();
+
     // get cart
-    const cart = useSelector(state => state.cart);
+    const cart = useSelector((state) => state.cart);
 
     // Calculate prices
     const addDecimal = (num) => {
         return (Math.round(num * 100) / 100).toFixed(2)
     }
 
-    cart.discoundtPrice = addDecimal([]);
+    cart.discountPrice = addDecimal([]);
     cart.itemsPrice = cart.cartItems.reduce((acc, item) => acc + item.qty * item.price, 0);
     cart.shippingPrice = addDecimal(cart.itemsPrice > 100 ? 0 : 100);
     cart.taxPrice = addDecimal(Number((0.15 * cart.itemsPrice).toFixed(2)));
@@ -23,10 +25,35 @@ const PlaceOrderScreen = ({}) => {
         Number(cart.itemsPrice) +
         Number(cart.shippingPrice) +
         Number(cart.taxPrice)
-    ) - Number(cart.discoundtPrice).toFixed(2);
+    ) - Number(cart.discountPrice).toFixed(2);
+
+    const orderCreate = useSelector((state) => state.orderCreate);
+    const { order, error, success } = orderCreate ;
+
+
+
+
+    useEffect(() => {
+        if (success) {
+            history.push(`/order/${order._id}`)
+            console.log(order)
+        }
+        // eslint-disable-next-line
+    }, [history, success])
 
     const placeOrderHandler = () => {
-
+        dispatch(
+            createOrder({
+                discountPrice: cart.discountPrice,
+                orderItems: cart.cartItems,
+                shippingAddress: cart.shippingAddress,
+                paymentMethod: cart.paymentMethod,
+                itemsPrice: cart.itemsPrice,
+                shippingPrice: cart.shippingPrice,
+                taxPrice: cart.taxPrice,
+                totalPrice: cart.totalPrice,
+            })
+        )
     }
 
     return (
@@ -100,7 +127,7 @@ const PlaceOrderScreen = ({}) => {
                             <ListGroup.Item>
                                 <Row>
                                     <Col>Discount</Col>
-                                    <Col>${cart.discoundtPrice}</Col>
+                                    <Col>${cart.discountPrice}</Col>
                                 </Row>
                             </ListGroup.Item>
                             <ListGroup.Item>
@@ -121,6 +148,11 @@ const PlaceOrderScreen = ({}) => {
                                     <Col>${cart.totalPrice}</Col>
                                 </Row>
                             </ListGroup.Item>
+
+                            <ListGroup.Item>
+                                {error && <MessageBoxComponent variant='danger'>{error}</MessageBoxComponent>}
+                            </ListGroup.Item>
+
                             <ListGroup.Item>
                                 <Button
                                     type="button"
