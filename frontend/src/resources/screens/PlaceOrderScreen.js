@@ -17,15 +17,16 @@ const PlaceOrderScreen = ({history}) => {
         return (Math.round(num * 100) / 100).toFixed(2)
     }
 
-    cart.discountPrice = addDecimal([]);
-    cart.itemsPrice = cart.cartItems.reduce((acc, item) => acc + item.qty * item.price, 0);
+    cart.discountPrice = addDecimal([123.23905]);
+    cart.itemsPrice = addDecimal(cart.cartItems.reduce((acc, item) => acc + item.qty * item.price, 0));
     cart.shippingPrice = addDecimal(cart.itemsPrice > 100 ? 0 : 100);
     cart.taxPrice = addDecimal(Number((0.15 * cart.itemsPrice).toFixed(2)));
     cart.totalPrice = addDecimal(
         Number(cart.itemsPrice) +
         Number(cart.shippingPrice) +
-        Number(cart.taxPrice)
-    ) - Number(cart.discountPrice).toFixed(2);
+        Number(cart.taxPrice) -
+        Number(cart.discountPrice)
+    );
 
     const orderCreate = useSelector((state) => state.orderCreate);
     const { order, error, success } = orderCreate ;
