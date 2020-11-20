@@ -1,15 +1,11 @@
 import React, { useState } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import MessageBoxComponent from '../components/MessageBoxComponent';
-import LoadingBoxComponent from '../components/LoadingBoxComponent';
 import FormContainerComponent from "../components/FormContainerComponent";
-import {login} from "../actions/UserActions";
-import LoginScreen from "./LoginScreen";
 import { saveShippingAddress } from '../actions/cartActions';
 import CheckOutComponent from "../components/CheckOutComponent";
 
-const ShippingScreen = ({ history, location}) => {
+const ShippingScreen = ({ history}) => {
     const cart = useSelector(state => state.cart)
     const { shippingAddress } = cart
 

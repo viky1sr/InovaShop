@@ -3,14 +3,14 @@ import { Form, Button, Row, Col} from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import MessageBoxComponent from '../components/MessageBoxComponent';
 import LoadingBoxComponent from '../components/LoadingBoxComponent';
-import {getUserDetails, register, updateUserProfile} from '../actions/UserActions';
+import {getUserDetails, updateUserProfile} from '../actions/UserActions';
 
-const ProfileScreen = ({ history, location }) => {
+const ProfileScreen = ({ history }) => {
     const [ name, setName ] = useState('');
     const [ email, setEmail ] = useState('');
     const [ password, setPassword ] = useState('');
     const [ confirm_password, setConfirmPassword ] = useState('');
-    const [ message, setMessage ] = useState(null);
+    const [ message, ] = useState(null);
 
     const dispatch = useDispatch();
 

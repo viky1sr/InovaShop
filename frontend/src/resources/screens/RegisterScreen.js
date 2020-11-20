@@ -12,7 +12,7 @@ const RegisterScreen = ({ history, location }) => {
     const [ email, setEmail ] = useState('');
     const [ password, setPassword ] = useState('');
     const [ confirm_password, setConfirmPassword ] = useState('');
-    const [ message, setMessage ] = useState(null);
+    const [ message ] = useState(null);
 
     const dispatch = useDispatch();
 

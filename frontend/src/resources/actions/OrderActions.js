@@ -72,3 +72,37 @@ export const getOrderDetails = (id) => async (dispatch, getState) => {
         });
     }
 }
+
+export const updateOrderToPay = (orderId, paymentResult) => async (dispatch, getState) => {
+    try {
+        dispatch({
+            type: ORDER_DETAILS_REQUEST
+        });
+
+        const { userLogin: { userInfo } } = getState();
+
+        // console.log(userInfo.data.token)
+
+        const config = {
+            headers: {
+                'Content-Type' : 'application/json',
+                'Authorization' : `Bearer ${userInfo.data.token}`
+            }
+        }
+
+        const { data } = await axios.get(`/api/v1/orders/${orderId}/pay`, paymentResult, config );
+
+        dispatch({
+            type: ORDER_DETAILS_SUCCESS,
+            payload: data
+        });
+
+    } catch (e) {
+        dispatch({
+            type: ORDER_DETAILS_FAIL,
+            payload: e.response && e.response.data.message
+                ? e.response.data.message
+                : e.message
+        });
+    }
+}
