@@ -36,7 +36,7 @@ const reducer = combineReducers({
     userDetails : UserDetailsReducers,
     userUpdate: UserUpdateReducers,
     orderCreate: orderCreateReducer,
-    orderDedtails: orderDetailsReducer,
+    orderDetails: orderDetailsReducer,
     orderToPay: orderToPayReducer
 
 });

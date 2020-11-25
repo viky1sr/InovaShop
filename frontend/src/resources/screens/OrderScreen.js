@@ -7,34 +7,41 @@ import { Col, Row, Image, Card, ListGroup } from 'react-bootstrap';
 import MessageBoxComponent from '../components/MessageBoxComponent';
 import {createOrder, getOrderDetails, updateOrderToPay} from "../actions/OrderActions";
 import LoadingBoxComponent from "../components/LoadingBoxComponent";
+import {ORDER_PAY_RESET} from "../constants/OrderConstants";
 
-const OrderScreen = ({ match }) => {
+const OrderScreen = ({ match, history }) => {
     const dispatch = useDispatch();
 
     const [ sdkReady, setSdkReady ] = useState(false)
 
     const orderId = match.params.id
 
-    const orderDedtails = useSelector((state) => state.orderDedtails);
-    const { order, error, loading } = orderDedtails ;
+    const orderDetails = useSelector((state) => state.orderDetails)
+    const { order, loading, error } = orderDetails ;
 
     const orderToPay = useSelector((state) => state.orderToPay);
     const { loading: loadingPay, success: successPay } = orderToPay ;
+
+    const userLogin = useSelector((state) => state.userLogin)
+    const { userInfo } = userLogin
 
     // Calculate prices
     const addDecimal = (num) => {
         return (Math.round(num * 100) / 100).toFixed(2)
     }
 
-    if (!loading) {
-        order.itemsPrice = addDecimal(
-            order.orderItems.reduce((acc, item) => acc + item.qty * item.price, 0)
-        );
-
-    }
+            if (!loading) {
+                order.itemsPrice = addDecimal(
+                    order.orderItems.reduce((acc, item) => acc + item.price * item.qty, 0)
+                )
+            }
 
     useEffect(() => {
-        const addPaypalScript = async () => {
+        if (!userInfo) {
+            history.push('/login')
+        }
+
+        const addPayPalScript = async () => {
             const {data: clientId} = await axios.get('/api/v1/config/paypal');
             const script = document.createElement('script');
             script.type = 'text/javascript';
@@ -46,11 +53,13 @@ const OrderScreen = ({ match }) => {
             document.body.appendChild(script)
         }
 
-        if (!order || successPay) {
+        if (!order || successPay || order._id !== orderId) {
+            dispatch({ type: ORDER_PAY_RESET })
+            // dispatch({ type: ORDER_DELIVER_RESET })
             dispatch(getOrderDetails(orderId))
         } else if (!order.isPaid) {
             if (!window.paypal) {
-                addPaypalScript()
+                addPayPalScript()
             } else {
                 setSdkReady(true)
             }
