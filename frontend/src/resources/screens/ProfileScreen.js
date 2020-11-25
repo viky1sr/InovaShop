@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Form, Button, Row, Col} from 'react-bootstrap';
+import { Form, Button, Row, Col, Table } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
+import { LinkContainer } from 'react-router-bootstrap';
 import MessageBoxComponent from '../components/MessageBoxComponent';
 import LoadingBoxComponent from '../components/LoadingBoxComponent';
-import {getUserDetails, updateUserProfile} from '../actions/UserActions';
+import { getUserDetails, updateUserProfile } from '../actions/UserActions';
+import { listMyOrders } from "../actions/OrderActions";
 
 const ProfileScreen = ({ history }) => {
     const [ name, setName ] = useState('');
@@ -14,15 +16,17 @@ const ProfileScreen = ({ history }) => {
 
     const dispatch = useDispatch();
 
-    const userDetails = useSelector(state => state.userDetails);
+    const userDetails = useSelector((state) => state.userDetails);
     const { loading, user } = userDetails
 
-    const userLogin = useSelector(state => state.userLogin);
+    const userLogin = useSelector((state) => state.userLogin);
     const { userInfo } = userLogin
 
-    const userUpdate = useSelector(state => state.userUpdate);
+    const userUpdate = useSelector((state) => state.userUpdate);
     const { success, error } = userUpdate
 
+    const orderMyList = useSelector((state) => state.orderMyList);
+    const { loading:loadingOrders, error:errorOrders, orders } = orderMyList
 
     console.log()
 
@@ -32,6 +36,7 @@ const ProfileScreen = ({ history }) => {
         } else {
             if(!user || !user.name) {
                 dispatch(getUserDetails('profile'))
+                dispatch(listMyOrders())
             } else {
                 console.log(user)
                 setName(user.name)
@@ -110,6 +115,43 @@ const ProfileScreen = ({ history }) => {
             </Col>
             <Col md={9}>
                 <h2> My Orders </h2>
+                {loadingOrders ? <LoadingBoxComponent /> : errorOrders ? <MessageBoxComponent variant='danger'>{errorOrders}</MessageBoxComponent> :
+                    (
+                        <Table striped border hover responsive className='table-sm' >
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>DATE</th>
+                                    <th>TOTAL</th>
+                                    <th>PAID</th>
+                                    <th>DELIVERED</th>
+                                    <th>{}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            {orders.map( item => (
+                                <tr key={item._id}>
+                                    <td>{item._id}</td>
+                                    <td>{item.createdAt.substring(0, 10)}</td>
+                                    <td>${item.totalPrice}</td>
+                                    <td>{item.isPaid ?
+                                        ( <i style={{color: 'green'}} > {item.paidAt.substring(0, 10)} </i> ):
+                                        ( <i className='fas fa-times' style={{color: 'red'}} />) }
+                                    </td>
+                                    <td>{item.isDelivered ? item.deliveredAt.substring(0, 10) :
+                                        ( <i className='fas fa-times' style={{color: 'red'}} />) }
+                                    </td>
+                                    <td>
+                                        <LinkContainer to={`/order/${item._id}`}>
+                                            <Button variant='light' className='btn-outline-info btn-sm'>Details</Button>
+                                        </LinkContainer>
+                                    </td>
+                                </tr>
+                            ))}
+                            </tbody>
+                        </Table>
+                    )
+                }
             </Col>
         </Row>
 

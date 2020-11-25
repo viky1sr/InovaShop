@@ -30,11 +30,11 @@ const OrderScreen = ({ match, history }) => {
         return (Math.round(num * 100) / 100).toFixed(2)
     }
 
-            if (!loading) {
-                order.itemsPrice = addDecimal(
-                    order.orderItems.reduce((acc, item) => acc + item.price * item.qty, 0)
-                )
-            }
+    if (!loading) {
+        order.itemsPrice = addDecimal(
+            order.orderItems.reduce((acc, item) => acc + item.price * item.qty, 0)
+        )
+    }
 
     useEffect(() => {
         if (!userInfo) {
@@ -55,7 +55,6 @@ const OrderScreen = ({ match, history }) => {
 
         if (!order || successPay || order._id !== orderId) {
             dispatch({ type: ORDER_PAY_RESET })
-            // dispatch({ type: ORDER_DELIVER_RESET })
             dispatch(getOrderDetails(orderId))
         } else if (!order.isPaid) {
             if (!window.paypal) {

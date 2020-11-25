@@ -82,3 +82,14 @@ export const updateOrderToPaid = expressAsyncHandler(async (req, res) => {
         throw new Error('Order not found')
     }
 });
+
+
+// @desc    Update Order to paid
+// @route   GET /api/v1/orders/myorder
+// @access  Private
+export const getMyOrders = expressAsyncHandler(async (req, res) => {
+    const orders = await Order.find({ user: req.user._id })
+
+    res.send(orders)
+
+});
