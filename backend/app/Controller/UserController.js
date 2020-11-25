@@ -120,10 +120,20 @@ const updateUserProfile = expressAsyncHandler(async (req, res) => {
     }
 });
 
+// @desc    Get user profile
+// @route   GET /api/users/profile
+// @access  Private
+const getUser = expressAsyncHandler(async (req, res) => {
+    const users = await UserDB.find({})
+
+    res.send(users)
+});
+
 export {
     register,
     login,
     getUserProfile,
-    updateUserProfile
+    updateUserProfile,
+    getUser
 
 }
