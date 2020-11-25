@@ -1,0 +1,69 @@
+# Get Details orders by Id
+GET http://localhost:5000/api/v1/orders/myorders
+Accept: */*
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVmYjRjNmViNjRkNDk2MjhlMGJmNWQ3ZiIsImlhdCI6MTYwNjI4MjU0OSwiZXhwIjoxNjA4ODc0NTQ5fQ.nXI98CT97aMEgPO0gweWmHPYsBgBfOej2opd_9f2YJE
+
+<> 2020-11-25T123908.500.json
+
+###
+
+# Update User
+PUT http://localhost:5000/api/v1/users/profile
+Accept: */*
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVmYThmMWI4ZDY3OTk4MWJjODE1YTFjNiIsImlhdCI6MTYwNTE1MzEzOCwiZXhwIjoxNjA3NzQ1MTM4fQ.DRxOF-sWjT008-qGQ9fXlCxwiBkUgkvHYjNAQLSJS6A
+
+{
+  "name": "Viky Memang ganteng coy",
+  "password": "vikyganteng",
+  "confirm_password": "vikyganteng"
+}
+
+<> 2020-11-12T105945.500.json
+
+###
+
+# Register
+POST http://localhost:5000/api/v1/users/register
+Accept: */*
+Content-Type: application/json
+
+{
+  "name": "Selja Rantes",
+  "email": "Selja@gmail.com",
+  "password": "123123",
+  "confirm_password": "123123"
+}
+
+<> 2020-11-10T101733.200.json
+
+###
+
+# Get user by id
+GET http://localhost:5000/api/v1/users/profile
+Accept: */*
+Cache-Control: no-cache
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZmE1MDcxNTM4MjJjMDI0NGNiNjkzODMiLCJpYXQiOjE2MDQ4OTQ2NjEsImV4cCI6MTYwNDg5NTAyMX0.J1tmQ2ywXB_ZA6pNAP0xeMDzo7KjER4Z6RVbR91p3SI
+
+###
+
+# Login
+POST http://localhost:5000/api/v1/users/login
+Accept: */*
+Content-Type: application/json
+
+{
+  "email": "vikymuhamad@gmail.com",
+  "password": "123123"
+}
+
+###
+
+# Get Users By Admin
+GET http://localhost:5000/api/v1/users
+Accept: */*
+Cache-Control: no-cache
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVmYjRjNmVjNjRkNDk2MjhlMGJmNWQ4MCIsImlhdCI6MTYwNjMwNzQ0OCwiZXhwIjoxNjA4ODk5NDQ4fQ.c3fK3Ib0Nw_dhSIfALGz7ILOyOrhXmFg3zmUjS4ObXQ
+
+###
