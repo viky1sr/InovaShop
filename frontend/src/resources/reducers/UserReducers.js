@@ -14,6 +14,7 @@ import {
     USER_LOGOUT,
 
 } from '../constants/UserConstants.js'
+import {USER_DETAILS_RESET} from "../constants/UserConstants";
 
 export const UserLoginReducers = (state = { }, action) => {
     switch (action.type) {
@@ -23,6 +24,8 @@ export const UserLoginReducers = (state = { }, action) => {
             return { loading: false, userInfo: action.payload }
         case USER_LOGIN_FAIL :
             return { loading: false, error: action.payload }
+        case USER_LOGOUT:
+            return { }
         default:
             return state
     }
@@ -49,6 +52,8 @@ export const UserDetailsReducers = (state = { user: {} }, action) => {
             return { ...state, loading: true }
         case USER_DETAILS_SUCCESS :
             return { loading: false, user: action.payload }
+        case USER_DETAILS_RESET :
+            return { user: {} }
         case USER_DETAILS_FAIL :
             return { loading: false, error: action.payload }
         default:
