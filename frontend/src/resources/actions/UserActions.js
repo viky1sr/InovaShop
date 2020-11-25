@@ -1,7 +1,7 @@
 import {
     USER_DETAILS_FAIL,
     USER_DETAILS_REQUEST, USER_DETAILS_RESET,
-    USER_DETAILS_SUCCESS,
+    USER_DETAILS_SUCCESS, USER_LIST_FAIL, USER_LIST_REQUEST, USER_LIST_SUCCESS,
     USER_LOGIN_FAIL,
     USER_LOGIN_REQUEST,
     USER_LOGIN_SUCCESS,
@@ -136,8 +136,6 @@ export const updateUserProfile = (user) => async (dispatch, getState) => {
 
         const { userLogin: { userInfo } } = getState();
 
-        // console.log(userInfo.data.token)
-
         const config = {
             headers: {
                 'Content-Type' : 'application/json',
@@ -155,6 +153,40 @@ export const updateUserProfile = (user) => async (dispatch, getState) => {
     } catch (e) {
         dispatch({
             type: USER_UPDATE_FAIL,
+            payload: e.response && e.response.data.message
+                ? e.response.data.message
+                : e.message
+        });
+    }
+}
+
+export const listUsers = () => async (dispatch, getState) => {
+    try {
+        dispatch({
+            type: USER_LIST_REQUEST
+        });
+
+        const { userLogin: { userInfo } } = getState();
+
+        // console.log(userInfo.data.token)
+
+        const config = {
+            headers: {
+                'Content-Type' : 'application/json',
+                'Authorization' : `Bearer ${userInfo.data.token}`
+            }
+        }
+
+        const { data } = await axios.get(`/api/v1/users`, config );
+
+        dispatch({
+            type: USER_LIST_SUCCESS,
+            payload: data
+        });
+
+    } catch (e) {
+        dispatch({
+            type: USER_LIST_FAIL,
             payload: e.response && e.response.data.message
                 ? e.response.data.message
                 : e.message

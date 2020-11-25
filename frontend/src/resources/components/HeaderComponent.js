@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 import CartPartialComponent from "./partials/header/CartPartialComponent";
 import DropDownPartialComponent from "./partials/header/DropDownPartialComponent";
 import SigInPartialComponent from "./partials/header/SigInPartialComponent";
+import UserListPartialComponent from "./partials/header/UserListPartialComponent";
 
 const HeaderComponent = () => {
     const userLogin = useSelector((state) => state.userLogin);
@@ -20,7 +21,8 @@ const HeaderComponent = () => {
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="ml-auto">
                        <CartPartialComponent />
-                        {userInfo ? ( <DropDownPartialComponent /> ) : (<SigInPartialComponent />)}
+                        { userInfo ? ( <DropDownPartialComponent /> ) : (<SigInPartialComponent />) }
+                        { userInfo && userInfo.data.isAdmin && ( <UserListPartialComponent /> ) }
                     </Nav>
                 </Navbar.Collapse>
             </Container>

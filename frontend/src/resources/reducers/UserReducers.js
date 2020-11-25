@@ -14,7 +14,13 @@ import {
     USER_LOGOUT,
 
 } from '../constants/UserConstants.js'
-import {USER_DETAILS_RESET} from "../constants/UserConstants";
+import {
+    USER_DETAILS_RESET,
+    USER_LIST_FAIL,
+    USER_LIST_REQUEST,
+    USER_LIST_SUCCESS,
+    USER_UPDATE_RESET
+} from "../constants/UserConstants";
 
 export const UserLoginReducers = (state = { }, action) => {
     switch (action.type) {
@@ -68,6 +74,21 @@ export const UserUpdateReducers = (state = { }, action) => {
         case USER_UPDATE_SUCCESS :
             return { loading: false, success:true, userInfo: action.payload }
         case USER_UPDATE_FAIL :
+            return { loading: false, error: action.payload }
+        case USER_UPDATE_RESET :
+            return {}
+        default:
+            return state
+    }
+}
+
+export const UserListReducers = (state = { users: [] }, action) => {
+    switch (action.type) {
+        case USER_LIST_REQUEST :
+            return { loading: true }
+        case USER_LIST_SUCCESS :
+            return { loading: false, success:true, users: action.payload }
+        case USER_LIST_FAIL :
             return { loading: false, error: action.payload }
         default:
             return state
