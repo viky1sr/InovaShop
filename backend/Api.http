@@ -30,10 +30,10 @@ Accept: */*
 Content-Type: application/json
 
 {
-  "name": "Selja Rantes",
-  "email": "Selja@gmail.com",
-  "password": "123123",
-  "confirm_password": "123123"
+  "name": "badak",
+  "email": "badak@gmail.com",
+  "password": "Qweasd123@@",
+  "confirm_password": "Qweasd123@@"
 }
 
 <> 2020-11-10T101733.200.json
@@ -65,5 +65,13 @@ GET http://localhost:5000/api/v1/users
 Accept: */*
 Cache-Control: no-cache
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVmYjRjNmVjNjRkNDk2MjhlMGJmNWQ4MCIsImlhdCI6MTYwNjMwNzQ0OCwiZXhwIjoxNjA4ODk5NDQ4fQ.c3fK3Ib0Nw_dhSIfALGz7ILOyOrhXmFg3zmUjS4ObXQ
+
+###
+
+# Delete User By Admin
+DELETE http://localhost:5000/api/v1/users/5fb4c6ec64d49628e0bf5d80
+Accept: */*
+Cache-Control: no-cache
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVmYjRjNmViNjRkNDk2MjhlMGJmNWQ3ZiIsImlhdCI6MTYwNjMyNTIzMiwiZXhwIjoxNjA4OTE3MjMyfQ.R30wKj1boWUiO3oY4VoIrcrFMP384kWt2s7wZPuaSNQ
 
 ###

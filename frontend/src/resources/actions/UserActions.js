@@ -1,7 +1,9 @@
 import {
+    USER_DELETE_FAIL,
+    USER_DELETE_REQUEST, USER_DELETE_SUCCESS,
     USER_DETAILS_FAIL,
     USER_DETAILS_REQUEST, USER_DETAILS_RESET,
-    USER_DETAILS_SUCCESS, USER_LIST_FAIL, USER_LIST_REQUEST, USER_LIST_SUCCESS,
+    USER_DETAILS_SUCCESS, USER_LIST_FAIL, USER_LIST_REQUEST, USER_LIST_RESET, USER_LIST_SUCCESS,
     USER_LOGIN_FAIL,
     USER_LOGIN_REQUEST,
     USER_LOGIN_SUCCESS,
@@ -11,7 +13,6 @@ import {
     USER_REGISTER_SUCCESS, USER_UPDATE_FAIL, USER_UPDATE_REQUEST, USER_UPDATE_SUCCESS
 } from "../constants/UserConstants";
 import axios from 'axios';
-import {PRODUCT_LIST_FAILS} from "../constants/ProductConstants";
 import {ORDER_LIST_MY_RESET} from "../constants/OrderConstants";
 
 export const login = ( email, password) => async (dispatch) => {
@@ -53,6 +54,7 @@ export const logout = () => (dispatch) => {
     dispatch({ type: USER_LOGOUT });
     dispatch({ type: USER_DETAILS_RESET });
     dispatch({ type: ORDER_LIST_MY_RESET });
+    dispatch({ type: USER_LIST_RESET });
 }
 
 export const register = ( name, email, password, confirm_password) => async (dispatch) => {
@@ -187,6 +189,34 @@ export const listUsers = () => async (dispatch, getState) => {
     } catch (e) {
         dispatch({
             type: USER_LIST_FAIL,
+            payload: e.response && e.response.data.message
+                ? e.response.data.message
+                : e.message
+        });
+    }
+}
+
+export const delettUser = (id) => async (dispatch, getState) => {
+    try {
+        dispatch({
+            type: USER_DELETE_REQUEST
+        });
+
+        const { userLogin: { userInfo } } = getState();
+
+        const config = {
+            headers: {
+                'Authorization' : `Bearer ${userInfo.data.token}`
+            }
+        }
+
+        const { data } = await axios.delete(`/api/v1/users/${id}`, config );
+
+        dispatch({ type: USER_DELETE_SUCCESS });
+
+    } catch (e) {
+        dispatch({
+            type: USER_DELETE_FAIL,
             payload: e.response && e.response.data.message
                 ? e.response.data.message
                 : e.message

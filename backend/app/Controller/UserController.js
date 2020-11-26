@@ -122,11 +122,27 @@ const updateUserProfile = expressAsyncHandler(async (req, res) => {
 
 // @desc    Get user profile
 // @route   GET /api/users/profile
-// @access  Private
+// @access  Private / Admin
 const getUser = expressAsyncHandler(async (req, res) => {
     const users = await UserDB.find({})
-
     res.send(users)
+});
+
+// @desc    Delete user
+// @route   DELETE /api/users/profile
+// @access  Private / Admin
+const deleteUser = expressAsyncHandler(async (req, res) => {
+    const user = await UserDB.findById(req.params.id)
+
+    if(user) {
+        await user.remove()
+        res.status(200).json({
+            message: "User has been removed"
+        })
+    } else {
+        res.status(401)
+        throw new Error(`User not found`)
+    }
 });
 
 export {
@@ -134,6 +150,6 @@ export {
     login,
     getUserProfile,
     updateUserProfile,
-    getUser
-
+    getUser,
+    deleteUser
 }

@@ -15,9 +15,11 @@ import {
 
 } from '../constants/UserConstants.js'
 import {
+    USER_DELETE_FAIL,
+    USER_DELETE_REQUEST, USER_DELETE_SUCCESS,
     USER_DETAILS_RESET,
     USER_LIST_FAIL,
-    USER_LIST_REQUEST,
+    USER_LIST_REQUEST, USER_LIST_RESET,
     USER_LIST_SUCCESS,
     USER_UPDATE_RESET
 } from "../constants/UserConstants";
@@ -42,9 +44,9 @@ export const UserRegisterReducers = (state = { }, action) => {
         case USER_REGISTER_REQUEST :
             return { loading: true }
         case USER_REGISTER_SUCCESS :
-            return { loading: false, userInfo: action.payload }
+            return { loading: false, userInfo: action.payload, success:true }
         case USER_REGISTER_FAIL :
-            return { loading: false, error: action.payload }
+            return { loading: false, error: action.payload , success:false  }
         case USER_LOGOUT :
             return { }
         default:
@@ -74,7 +76,7 @@ export const UserUpdateReducers = (state = { }, action) => {
         case USER_UPDATE_SUCCESS :
             return { loading: false, success:true, userInfo: action.payload }
         case USER_UPDATE_FAIL :
-            return { loading: false, error: action.payload }
+            return { loading: false, error: action.payload, success:false }
         case USER_UPDATE_RESET :
             return {}
         default:
@@ -90,6 +92,22 @@ export const UserListReducers = (state = { users: [] }, action) => {
             return { loading: false, success:true, users: action.payload }
         case USER_LIST_FAIL :
             return { loading: false, error: action.payload }
+        case USER_LIST_RESET :
+            return { users: [] }
+        default:
+            return state
+    }
+}
+
+
+export const UserDeleteReducers = (state = { }, action) => {
+    switch (action.type) {
+        case USER_DELETE_REQUEST :
+            return { loading: true }
+        case USER_DELETE_SUCCESS :
+            return { loading: false, success:true }
+        case USER_DELETE_FAIL :
+            return { loading: false, error: action.payload, success:false  }
         default:
             return state
     }

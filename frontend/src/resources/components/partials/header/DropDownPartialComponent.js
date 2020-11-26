@@ -2,7 +2,7 @@ import React from 'react';
 import { LinkContainer } from 'react-router-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import { NavDropdown } from "react-bootstrap";
-import {logout} from "../../../actions/UserActions";
+import { logout } from "../../../actions/UserActions";
 
 const DropDownPartialComponent = () => {
     const dispatch = useDispatch();

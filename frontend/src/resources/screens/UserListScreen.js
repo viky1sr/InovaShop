@@ -4,25 +4,74 @@ import { Table, Button} from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import MessageBoxComponent from '../components/MessageBoxComponent';
 import LoadingBoxComponent from '../components/LoadingBoxComponent';
-import {listUsers} from "../actions/UserActions";
+import {delettUser, listUsers} from "../actions/UserActions";
+import Swal from 'sweetalert2';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-const UserListScreen = () => {
+const UserListScreen = ({ history }) => {
     const dispatch = useDispatch();
 
-    const usersList = useSelector(state => state.usersList)
+    const usersList = useSelector((state) => state.usersList)
     const { loading, error, users } = usersList
 
+    const userLogin = useSelector((state) => state.userLogin)
+    const { userInfo } = userLogin
+
+    const userDelete = useSelector((state) => state.userDelete)
+    const { success: successDelete } = userDelete
+
+    console.log(users);
+
     useEffect(() => {
-        dispatch(listUsers())
-    }, [dispatch]);
+        if(userInfo) {
+            dispatch(listUsers())
+        } else {
+            history.push(`/login`)
+        }
+    }, [ dispatch, history, successDelete ]);
 
     const deleteHandler = (id) => {
-        console.log(`delete`)
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                dispatch(delettUser(id))
+                toast('Deleted Successfully', {
+                    position: "top-right",
+                    type: 'success',
+                    autoClose: 3000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: false,
+                    draggable: true,
+                    progress: undefined,
+                });
+            }
+        })
     }
+
 
     return (
         <>
             <h1>Users</h1>
+            <ToastContainer
+                position="top-right"
+                autoClose={3000}
+                hideProgressBar={false}
+                newestOnTop
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover={false}
+            />
             {
                 loading ? <LoadingBoxComponent /> : error ? <MessageBoxComponent variant='danger'>{error}</MessageBoxComponent> :
                     (

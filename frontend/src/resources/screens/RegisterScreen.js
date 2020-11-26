@@ -6,6 +6,9 @@ import MessageBoxComponent from '../components/MessageBoxComponent';
 import LoadingBoxComponent from '../components/LoadingBoxComponent';
 import FormContainerComponent from '../components/FormContainerComponent';
 import { register } from '../actions/UserActions';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import {USER_REGISTER_RESET} from "../constants/UserConstants";
 
 const RegisterScreen = ({ history, location }) => {
     const [ name, setName ] = useState('');
@@ -17,14 +20,17 @@ const RegisterScreen = ({ history, location }) => {
     const dispatch = useDispatch();
 
     const userRegister = useSelector(state => state.userRegister);
-    const { loading, error, userInfo } = userRegister
+    let { loading, error, userInfo, success: successRegister } = userRegister
 
     const redirect = location.search ? location.search.split('=')[1] : '/' ;
 
     useEffect(() => {
-        if(userInfo) {
-            history.push(redirect)
-        }
+        const timer = setTimeout(() => {
+            if(userInfo) {
+                history.push(redirect)
+            }
+        }, 1000);
+        return () => clearTimeout(timer);
     },[history, userInfo, redirect]);
 
     const submitHandler = (e) => {
@@ -40,8 +46,34 @@ const RegisterScreen = ({ history, location }) => {
         dispatch(register(name, email, password, confirm_password))
     }
 
+    if(successRegister === true ) {
+        toast('Register Successfully', {
+            position: "top-right",
+            type: 'success',
+            autoClose: 3000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+        });
+    }
+
+    console.log(successRegister);
+
     return (
         <FormContainerComponent>
+            <ToastContainer
+                position="top-right"
+                autoClose={3000}
+                hideProgressBar={false}
+                newestOnTop
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover={false}
+            />
             <h1>Sign Up</h1>
             {message && <MessageBoxComponent variant='danger'>{message}</MessageBoxComponent>}
             {error && <MessageBoxComponent variant='danger'>{error}</MessageBoxComponent>}
@@ -87,7 +119,7 @@ const RegisterScreen = ({ history, location }) => {
                     />
                 </Form.Group>
 
-                <Button type='submit' variant='primary'>
+                <Button type='submit'  variant='primary'>
                     Update
                 </Button>
             </Form>
