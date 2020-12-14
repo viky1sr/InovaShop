@@ -64,20 +64,6 @@ const ProfileScreen = ({ history }) => {
         window.location.reload(true)
     }
 
-
-    const ToastrError = () => {
-        toast(`${error}`, {
-            position: "top-right",
-            type: 'error',
-            autoClose: 3000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-        })
-    }
-
     const submitHandler = (e) => {
         e.preventDefault()
         //DISPATCH REGISTER ( if not validasi in backend )
