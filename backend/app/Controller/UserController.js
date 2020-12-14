@@ -128,6 +128,20 @@ const getUser = expressAsyncHandler(async (req, res) => {
     res.send(users)
 });
 
+// @desc    Get user by ID
+// @route   GET /api/users/:id
+// @access  Private/Admin
+const getUserById = expressAsyncHandler(async (req, res) => {
+    const user = await UserDB.findById(req.params.id).select('-password')
+
+    if (user) {
+        res.json(user)
+    } else {
+        res.status(404)
+        throw new Error('User not found')
+    }
+})
+
 // @desc    Delete user
 // @route   DELETE /api/users/profile
 // @access  Private / Admin
@@ -145,11 +159,14 @@ const deleteUser = expressAsyncHandler(async (req, res) => {
     }
 });
 
+
+
 export {
     register,
     login,
     getUserProfile,
     updateUserProfile,
     getUser,
+    getUserById,
     deleteUser
 }

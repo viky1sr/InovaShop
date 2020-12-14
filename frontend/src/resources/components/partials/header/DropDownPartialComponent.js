@@ -10,14 +10,25 @@ const DropDownPartialComponent = () => {
     const userLogin = useSelector((state) => state.userLogin);
     const { userInfo } = userLogin;
 
+    const userDetails = useSelector((state) => state.userDetails)
+    const { user } = userDetails
+
+    const userName = () => {
+        return !user ? userInfo.data.name : user.name || userInfo.data.name;
+    }
+
+    const profileLink = () => {
+        window.location.href = '/profile'
+    }
+
     const logoutHandler = () => {
         dispatch(logout());
     }
 
     return (
-        <NavDropdown title={userInfo.data.name} id='username'>
-            <LinkContainer to='/profile'>
-                <NavDropdown.Item> Profile </NavDropdown.Item>
+        <NavDropdown title={userName()} id='username'>
+            <LinkContainer  to='/profile'>
+                <NavDropdown.Item onClick={profileLink}> Profile </NavDropdown.Item>
             </LinkContainer>
             <NavDropdown.Item onClick={logoutHandler}>
                 Logout

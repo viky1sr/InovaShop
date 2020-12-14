@@ -4,12 +4,16 @@ import { useSelector, useDispatch } from 'react-redux';
 import { LinkContainer } from 'react-router-bootstrap';
 import MessageBoxComponent from '../components/MessageBoxComponent';
 import LoadingBoxComponent from '../components/LoadingBoxComponent';
-import {getUserDetails, login, updateUserProfile} from '../actions/UserActions';
+import {delettUser, getUserDetails, login, updateUserProfile} from '../actions/UserActions';
 import { listMyOrders } from "../actions/OrderActions";
+import {USER_DETAILS_SUCCESS, USER_UPDATE_RESET} from "../constants/UserConstants";
 import {toast, ToastContainer} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import Swal from "sweetalert2";
 
-const ProfileScreen = ({ history }) => {
+const ProfileScreen = ({ history, match }) => {
+    const userId = match.params.id
+
     const [ name, setName ] = useState('');
     const [ email, setEmail ] = useState('');
     const [ password, setPassword ] = useState('');
@@ -30,17 +34,12 @@ const ProfileScreen = ({ history }) => {
     const orderMyList = useSelector((state) => state.orderMyList);
     const { loading:loadingOrders, error:errorOrders, orders } = orderMyList
 
-    if(errorOrders) {
-        setTimeout(() => {
-            window.location.reload(true)
-        },1000)
-    }
-
-    useEffect(() =>     {
+    useEffect(() => {
         if(!userInfo) {
             history.push('/login')
         } else {
             if(!user || !user.name) {
+                dispatch({ type: USER_UPDATE_RESET })
                 dispatch(getUserDetails('profile'))
                 dispatch(listMyOrders())
             } else {
@@ -50,33 +49,25 @@ const ProfileScreen = ({ history }) => {
         }
     },[dispatch, history, userInfo, user]);
 
-    const ToastrSuccess = () => {
-        toast('Update Successfully', {
-            position: "top-right",
-            type: 'success',
-            autoClose: 3000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-        })
-        window.location.reload(true)
-    }
+    // if (success === true ) {
+    //     toast('Success Update Profile', {
+    //         position: "top-right",
+    //         type: 'success',
+    //         autoClose: 2000,
+    //         hideProgressBar: false,
+    //         closeOnClick: true,
+    //         pauseOnHover: true,
+    //         draggable: true,
+    //         progress: undefined,
+    //     });
+    //     // window.location.reload()
+    // }
 
+    const test1 = dispatch(login(email,password));
 
-    const ToastrError = () => {
-        toast(`${error}`, {
-            position: "top-right",
-            type: 'error',
-            autoClose: 3000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-        })
-    }
+    // console.log(submitAcc)
+    // console.log(user)
+
 
     const submitHandler = (e) => {
         e.preventDefault()
@@ -88,7 +79,37 @@ const ProfileScreen = ({ history }) => {
         // }
 
         // DISPATCH REGISTER ( if do validasi in backend )
-        dispatch(updateUserProfile( { id: user._id, name, email, password, confirm_password }))
+
+        const { value: password1 } =
+            Swal.fire({
+            title: 'Enter your password',
+            input: 'password',
+            inputLabel: 'Password',
+            inputPlaceholder: 'Enter your password',
+            inputAttributes: {
+                maxlength: 255,
+                autocapitalize: 'off',
+                autocorrect: 'off'
+            },
+            inputValidator: (value) => {
+                if (value !== user.password) {
+                    Swal.fire(`Your password is incorrect: ${value}`)
+                } else {
+                    toast('Success Update Profile', {
+                        position: "top-right",
+                        type: 'success',
+                        autoClose: 2000,
+                        hideProgressBar: false,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                    });
+                    dispatch(updateUserProfile( { id: user._id, name, email, password, confirm_password } ))
+                }
+            }
+        })
+
     }
 
     return (
@@ -108,7 +129,7 @@ const ProfileScreen = ({ history }) => {
                 <h1>Update Profile</h1>
                 {message && <MessageBoxComponent variant='danger'>{message}</MessageBoxComponent>}
                 {error && <MessageBoxComponent variant='danger'>{error}</MessageBoxComponent>}
-                {success}
+                {/*{success && <MessageBoxComponent variant='success'>Success Update Profile</MessageBoxComponent>}*/}
                 {loading && <LoadingBoxComponent />}
                 <Form onSubmit={submitHandler}>
                     <Form.Group controlId='name'>
@@ -151,7 +172,7 @@ const ProfileScreen = ({ history }) => {
                         />
                     </Form.Group>
 
-                    <Button type='submit' variant='primary' disabled={success} onclick={success ? ToastrSuccess() :  '' } >
+                    <Button type='submit' variant='primary'>
                         Update
                     </Button>
                 </Form>
@@ -172,7 +193,7 @@ const ProfileScreen = ({ history }) => {
                             </tr>
                             </thead>
                             <tbody>
-                            {orders.map( item => (
+                            {userInfo ? orders.map( item => (
                                 <tr key={item._id}>
                                     <td>{item._id}</td>
                                     <td>{item.createdAt.substring(0, 10)}</td>
@@ -190,7 +211,7 @@ const ProfileScreen = ({ history }) => {
                                         </LinkContainer>
                                     </td>
                                 </tr>
-                            ))}
+                            )) : history.push('/login') }
                             </tbody>
                         </Table>
                     )

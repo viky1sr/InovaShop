@@ -8,7 +8,6 @@ import FormContainerComponent from '../components/FormContainerComponent';
 import { register } from '../actions/UserActions';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import {USER_REGISTER_RESET} from "../constants/UserConstants";
 
 const RegisterScreen = ({ history, location }) => {
     const [ name, setName ] = useState('');

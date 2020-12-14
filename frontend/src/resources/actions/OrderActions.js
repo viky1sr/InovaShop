@@ -11,6 +11,7 @@ import {
     ORDER_PAY_REQUEST,
     ORDER_PAY_SUCCESS
 } from "../constants/OrderConstants";
+import {logout} from "./UserActions";
 
 export const createOrder = (order) => async (dispatch, getState) => {
     try {
@@ -74,7 +75,7 @@ export const getOrderDetails = (id) => async (dispatch, getState) => {
                 ? error.response.data.message
                 : error.message
         if (message === 'Not authorized, token failed') {
-            // dispatch(logout())
+            dispatch(logout())
         }
         dispatch({
             type: ORDER_DETAILS_FAIL,
@@ -114,7 +115,7 @@ export const updateOrderToPay = (orderId, paymentResult) => async (dispatch, get
                 ? error.response.data.message
                 : error.message
         if (message === 'Not authorized, token failed') {
-            // dispatch(logout())
+            dispatch(logout())
         }
         dispatch({
             type: ORDER_PAY_FAIL,
@@ -153,7 +154,7 @@ export const listMyOrders = () => async (dispatch, getState) => {
                 ? error.response.data.message
                 : error.message
         if (message === 'Not authorized, token failed') {
-            // dispatch(logout())
+            dispatch(logout())
         }
         dispatch({
             type: ORDER_LIST_MY_FAIL,

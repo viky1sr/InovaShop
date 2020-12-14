@@ -11,6 +11,16 @@ const HeaderComponent = () => {
     const userLogin = useSelector((state) => state.userLogin);
     const { userInfo } = userLogin;
 
+    const usersList = useSelector((state) => state.usersList)
+    const { error } = usersList
+
+
+    if(error === 'Request failed with status code 500') {
+        setTimeout(() => {
+            window.location.reload(true)
+        },10000)
+    }
+
     return (
         <Navbar bg="dark" variant="dark" expand="lg" collapseOnSelect >
             <Container>

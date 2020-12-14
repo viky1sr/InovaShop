@@ -95,7 +95,7 @@ const UserListScreen = ({ history }) => {
                                             {item.isAdmin ? (<i className='fas fa-check' style={{color: 'green'}} />) : (<i className='fas fa-times' style={{color: 'red'}} />)}
                                         </td>
                                         <td>
-                                            <LinkContainer to={`/user/${item._id}/edit`}>
+                                            <LinkContainer to={`/admin/${item._id}/user-edit`}>
                                                 <Button variant='light' className='btn btn-outline-warning btn-sm '>
                                                     <i className='fas fa-edit' />
                                                 </Button>
