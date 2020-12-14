@@ -7,7 +7,7 @@ const SigInPartialComponent = () => {
         <LinkContainer to="/login">
             <Nav.Link>
                 <i className="fas fa-user" />
-                Sign In
+                <span> Sign In </span>
             </Nav.Link>
         </LinkContainer>
     );

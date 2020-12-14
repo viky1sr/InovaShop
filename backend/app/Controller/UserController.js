@@ -79,6 +79,7 @@ const getUserProfile = expressAsyncHandler(async (req, res) => {
             name: user.name,
             email: user.email,
             isAdmin: user.isAdmin,
+            createdAt: user.createdAt,
         })
     } else {
         res.status(404)

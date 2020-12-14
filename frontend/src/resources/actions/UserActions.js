@@ -29,7 +29,7 @@ export const login = ( email, password) => async (dispatch) => {
 
         const { data } = await axios.post(
             `/api/v1/users/login`,
-            { email, password},
+            { email, password },
             config
         );
 

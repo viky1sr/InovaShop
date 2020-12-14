@@ -4,10 +4,11 @@ import { useSelector, useDispatch } from 'react-redux';
 import { LinkContainer } from 'react-router-bootstrap';
 import MessageBoxComponent from '../components/MessageBoxComponent';
 import LoadingBoxComponent from '../components/LoadingBoxComponent';
-import {getUserDetails, login, updateUserProfile} from '../actions/UserActions';
+import {getUserDetails, updateUserProfile} from '../actions/UserActions';
 import { listMyOrders } from "../actions/OrderActions";
 import {toast, ToastContainer} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import { formatToTimeZone } from 'date-fns-timezone/dist'
 
 const ProfileScreen = ({ history }) => {
     const [ name, setName ] = useState('');
@@ -36,7 +37,7 @@ const ProfileScreen = ({ history }) => {
         },1000)
     }
 
-    useEffect(() =>     {
+    useEffect(() => {
         if(!userInfo) {
             history.push('/login')
         } else {
@@ -57,25 +58,29 @@ const ProfileScreen = ({ history }) => {
             autoClose: 3000,
             hideProgressBar: false,
             closeOnClick: true,
-            pauseOnHover: true,
+            pauseOnHover: false,
             draggable: true,
             progress: undefined,
         })
-        window.location.reload(true)
+        setTimeout(() => {
+            window.location.reload(true)
+        },1000)
     }
 
     const submitHandler = (e) => {
         e.preventDefault()
-        //DISPATCH REGISTER ( if not validasi in backend )
+        //DISPATCH REGISTER ( if not validation in backend )
         // if(password !== confirm_password) {
         //     setMessage('Password do not match')
         // } else {
         //     dispatch(register(name, email, password, confirm_password))
         // }
 
-        // DISPATCH REGISTER ( if do validasi in backend )
-        dispatch(updateUserProfile( { id: user._id, name, email, password, confirm_password }))
+        // DISPATCH REGISTER ( if do validation in backend )
+        dispatch(updateUserProfile( { id: user._id, name, email, password, confirm_password } ))
     }
+
+    const timeZone = 'Asia/Jakarta' ;
 
     return (
         <Row>
@@ -137,7 +142,7 @@ const ProfileScreen = ({ history }) => {
                         />
                     </Form.Group>
 
-                    <Button type='submit' variant='primary' disabled={success} onclick={success ? ToastrSuccess() :  '' } >
+                    <Button type='submit' variant='primary' disabled={success} onClick={ success ? ToastrSuccess() : ""} >
                         Update
                     </Button>
                 </Form>
@@ -161,13 +166,13 @@ const ProfileScreen = ({ history }) => {
                             {orders.map( item => (
                                 <tr key={item._id}>
                                     <td>{item._id}</td>
-                                    <td>{item.createdAt.substring(0, 10)}</td>
+                                    <td>{ formatToTimeZone(new Date(item.createdAt), 'D MMMM YYYY hh:mm a', { timeZone }) }</td>
                                     <td>${item.totalPrice}</td>
                                     <td>{item.isPaid ?
-                                        ( <i style={{color: 'green'}} > {item.paidAt.substring(0, 10)} </i> ):
+                                        ( <i style={{color: 'green'}} > { formatToTimeZone(new Date(item.paidAt), 'D MMMM YYYY hh:mm a', {timeZone}) }  </i> ):
                                         ( <i className='fas fa-times' style={{color: 'red'}} />) }
                                     </td>
-                                    <td>{item.isDelivered ? item.deliveredAt.substring(0, 10) :
+                                    <td>{item.isDelivered ? formatToTimeZone(new Date(item.deliveredAt), 'D MMMM YYYY hh:mm a', { timeZone }) :
                                         ( <i className='fas fa-times' style={{color: 'red'}} />) }
                                     </td>
                                     <td>

@@ -44,7 +44,7 @@ Content-Type: application/json
 GET http://localhost:5000/api/v1/users/profile
 Accept: */*
 Cache-Control: no-cache
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZmE1MDcxNTM4MjJjMDI0NGNiNjkzODMiLCJpYXQiOjE2MDQ4OTQ2NjEsImV4cCI6MTYwNDg5NTAyMX0.J1tmQ2ywXB_ZA6pNAP0xeMDzo7KjER4Z6RVbR91p3SI
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVmYjRjNmViNjRkNDk2MjhlMGJmNWQ3ZiIsImlhdCI6MTYwNzk1NjYxOCwiZXhwIjoxNjEwNTQ4NjE4fQ.yifCJm_IgZyaBSEizlCnRnV6AiXhOJ6ffUgnnw3Uvn4
 
 ###
 

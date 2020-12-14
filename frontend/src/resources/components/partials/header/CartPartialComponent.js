@@ -12,7 +12,7 @@ const CartPartialComponent = () => {
         <LinkContainer to="/cart">
             <Nav.Link>
                 <i className="fas fa-shopping-cart" />
-                Cart
+                <span> Cart </span>
                 {cartItems.length > 0 && (
                     <span className="badge">
                         {cartItems.length}

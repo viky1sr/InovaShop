@@ -1,12 +1,15 @@
-import React, {Component} from 'react';
+import React from 'react';
 import { ListGroup } from "react-bootstrap";
 import MessageBoxComponent from "../../../components/MessageBoxComponent";
 import { useSelector } from 'react-redux';
+import { formatToTimeZone } from "date-fns-timezone";
 
 const ShippingOrderPartial = () => {
 
     const orderDetails = useSelector((state) => state.orderDetails)
     const { order } = orderDetails ;
+
+    const timeZone = 'Asia/Jakarta' ;
 
     return (
         <ListGroup variant='flush'>
@@ -45,7 +48,7 @@ const ShippingOrderPartial = () => {
                 </p>
                 {order.isPaid ?
                     (
-                        <MessageBoxComponent variant='success'>Paid on {order.paidAt}</MessageBoxComponent>
+                        <MessageBoxComponent variant='success'>Paid on { formatToTimeZone(new Date(order.paidAt), 'D MMMM YYYY hh:mm a', {timeZone}) }</MessageBoxComponent>
                     ) :
                     (
                         <MessageBoxComponent variant='danger'>Not Paid</MessageBoxComponent>
