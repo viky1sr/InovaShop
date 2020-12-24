@@ -86,3 +86,52 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVmYjRjNmViN
   "name": "Tejo Edit",
   "isAdmin": false
 }
+
+###
+
+# Delete User By Admin
+DELETE http://localhost:5000/api/v1/products/5fb4c6ec64d49628e0bf5d83
+Accept: */*
+Cache-Control: no-cache
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVmYjRjNmViNjRkNDk2MjhlMGJmNWQ3ZiIsImlhdCI6MTYwODc4ODQ2MiwiZXhwIjoxNjExMzgwNDYyfQ.Gi6dNSCNxUjOv4FiqP1XuGj6GuQ9O1U46PZKET6EIGM
+
+###
+
+# Update User
+POST http://localhost:5000/api/v1/products
+Accept: */*
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVmYjRjNmViNjRkNDk2MjhlMGJmNWQ3ZiIsImlhdCI6MTYwODc4ODQ2MiwiZXhwIjoxNjExMzgwNDYyfQ.Gi6dNSCNxUjOv4FiqP1XuGj6GuQ9O1U46PZKET6EIGM
+
+{
+  "user": "",
+  "price": 20,
+  "name" : "Bakso",
+  "image" : "/images/sample.jpg",
+  "brand": "Bakso Betawi",
+  "category": "Bakso",
+  "countInStock": 100,
+  "numReviews": 4,
+  "description": "Bakso enak asli betawi loh"
+}
+
+###
+
+# Update Product
+PUT http://localhost:5000/api/v1/products/5fe45600cb761e2b188c0a97
+Accept: */*
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVmYjRjNmViNjRkNDk2MjhlMGJmNWQ3ZiIsImlhdCI6MTYwODc4ODQ2MiwiZXhwIjoxNjExMzgwNDYyfQ.Gi6dNSCNxUjOv4FiqP1XuGj6GuQ9O1U46PZKET6EIGM
+
+{
+  "price": 20,
+  "name" : "Bakso EDIT",
+  "image" : "/images/sample.jpg",
+  "brand": "Bakso Betawi",
+  "category": "Bakso",
+  "countInStock": 100,
+  "numReviews": 4,
+  "description": "Bakso enak asli betawi loh"
+}
+
+###
