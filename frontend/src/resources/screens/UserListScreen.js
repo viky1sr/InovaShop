@@ -21,15 +21,13 @@ const UserListScreen = ({ history }) => {
     const userDelete = useSelector((state) => state.userDelete)
     const { success: successDelete } = userDelete
 
-    console.log(users);
-
     useEffect(() => {
         if(userInfo) {
             dispatch(listUsers())
         } else {
             history.push(`/login`)
         }
-    }, [ dispatch, history, successDelete ]);
+    }, [ dispatch, history, successDelete, userInfo ]);
 
     const deleteHandler = (id) => {
         Swal.fire({
