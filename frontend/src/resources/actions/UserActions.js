@@ -1,16 +1,27 @@
 import {
     USER_DELETE_FAIL,
-    USER_DELETE_REQUEST, USER_DELETE_SUCCESS,
+    USER_DELETE_REQUEST,
+    USER_DELETE_SUCCESS,
     USER_DETAILS_FAIL,
-    USER_DETAILS_REQUEST, USER_DETAILS_RESET,
-    USER_DETAILS_SUCCESS, USER_LIST_FAIL, USER_LIST_REQUEST, USER_LIST_RESET, USER_LIST_SUCCESS,
+    USER_DETAILS_REQUEST,
+    USER_DETAILS_RESET,
+    USER_DETAILS_SUCCESS,
+    USER_LIST_FAIL,
+    USER_LIST_REQUEST,
+    USER_LIST_RESET,
+    USER_LIST_SUCCESS,
     USER_LOGIN_FAIL,
     USER_LOGIN_REQUEST,
     USER_LOGIN_SUCCESS,
     USER_LOGOUT,
     USER_REGISTER_FAIL,
     USER_REGISTER_REQUEST,
-    USER_REGISTER_SUCCESS, USER_UPDATE_FAIL, USER_UPDATE_REQUEST, USER_UPDATE_SUCCESS
+    USER_REGISTER_SUCCESS, USER_UPDATE_ADMIN_FAIL,
+    USER_UPDATE_ADMIN_REQUEST,
+    USER_UPDATE_ADMIN_SUCCESS,
+    USER_UPDATE_FAIL,
+    USER_UPDATE_REQUEST,
+    USER_UPDATE_SUCCESS
 } from "../constants/UserConstants";
 import axios from 'axios';
 import {ORDER_LIST_MY_RESET} from "../constants/OrderConstants";
@@ -121,11 +132,17 @@ export const getUserDetails = (id) => async (dispatch, getState) => {
         });
 
     } catch (e) {
-        dispatch({
-            type: USER_DETAILS_FAIL,
-            payload: e.response && e.response.data.message
+        const  message =
+            e.response && e.response.data.message
                 ? e.response.data.message
                 : e.message
+
+        if (message === 'Not authorized, token failed') {
+            dispatch(logout())
+        }
+        dispatch({
+            type: USER_DETAILS_FAIL,
+            payload: message,
         });
     }
 }
@@ -221,5 +238,47 @@ export const delettUser = (id) => async (dispatch, getState) => {
                 ? e.response.data.message
                 : e.message
         });
+    }
+}
+
+export const updateUserAdmin = (user) => async (dispatch, getState) => {
+    try {
+        dispatch({
+            type: USER_UPDATE_ADMIN_REQUEST,
+        })
+
+        const {
+            userLogin: { userInfo },
+        } = getState()
+
+        const config = {
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${userInfo.data.token}`,
+            },
+        }
+
+        const { data } = await axios.put(`/api/v1/users/${user._id}`, user, config)
+
+        dispatch({ type: USER_UPDATE_ADMIN_SUCCESS })
+
+        dispatch({
+            type: USER_DETAILS_SUCCESS,
+            payload: data
+        });
+
+        dispatch({ type: USER_DETAILS_RESET })
+    } catch (error) {
+        const message =
+            error.response && error.response.data.message
+                ? error.response.data.message
+                : error.message
+        if (message === 'Not authorized, token failed') {
+            dispatch(logout())
+        }
+        dispatch({
+            type: USER_UPDATE_ADMIN_FAIL,
+            payload: message,
+        })
     }
 }

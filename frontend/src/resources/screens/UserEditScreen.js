@@ -3,13 +3,14 @@ import { Form, Button } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import MessageBoxComponent from '../components/MessageBoxComponent';
 import LoadingBoxComponent from '../components/LoadingBoxComponent';
-import { getUserDetails } from '../actions/UserActions';
+import {getUserDetails, updateUserAdmin} from '../actions/UserActions';
 import FormContainerComponent from "../components/FormContainerComponent";
-import { ToastContainer } from "react-toastify";
+import {toast, ToastContainer} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import {Link} from "react-router-dom";
+import {USER_UPDATE_ADMIN_RESET} from "../constants/UserConstants";
 
-const UserEditScreen = ({ match }) => {
+const UserEditScreen = ({ match, history }) => {
     const userId = match.params.id
 
     const [name, setName] = useState('')
@@ -21,19 +22,41 @@ const UserEditScreen = ({ match }) => {
     const userDetails = useSelector((state) => state.userDetails)
     const { loading, error, user } = userDetails
 
+    const userUpdateAdmin = useSelector((state) => state.userUpdateAdmin)
+    const { loading: loadingUpdate, error: errorUpdate, success: successUpdate } = userUpdateAdmin
+
+    console.log(user)
+
     useEffect(() => {
-        if (!user.name || user._id !== userId) {
-            dispatch(getUserDetails(userId))
+        if(successUpdate) {
+            dispatch({ type: USER_UPDATE_ADMIN_RESET})
+            toast('Update Successfully', {
+                position: "top-right",
+                type: 'success',
+                autoClose: 1500,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: false,
+                draggable: true,
+                progress: undefined,
+            })
+            setTimeout(() => {
+                history.push('/admin/user-list')
+            },1300)
         } else {
-            setName(user.name)
-            setEmail(user.email)
-            setIsAdmin(user.isAdmin)
+            if (!user.name || user._id !== userId) {
+                dispatch(getUserDetails(userId))
+            } else {
+                setName(user.name)
+                setEmail(user.email)
+                setIsAdmin(user.isAdmin)
+            }
         }
-    }, [user])
+    }, [dispatch, userId, user, successUpdate])
 
     const submitHandler = (e) => {
         e.preventDefault()
-        // dispatch(updateUser({ _id: userId, name, email, isAdmin }))
+        dispatch(updateUserAdmin({ _id: userId, name, email, isAdmin }))
     }
 
 
@@ -91,7 +114,7 @@ const UserEditScreen = ({ match }) => {
                                 </Form.Group>
 
 
-                                <Button type='submit'  variant='primary'>
+                                <Button type='submit'  variant='primary' disabled={successUpdate} >
                                     Update
                                 </Button>
                             </Form>

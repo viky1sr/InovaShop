@@ -14,7 +14,7 @@ const DropDownPartialComponent = () => {
     const { user } = userDetails
 
     const userName = () => {
-        return !user ? userInfo.data.name : user.name || userInfo.data.name;
+        return !user.name ? userInfo.data.name : userInfo.data.name || user.name ;
     }
 
     const profileLink = () => {
@@ -23,6 +23,7 @@ const DropDownPartialComponent = () => {
 
     const logoutHandler = () => {
         dispatch(logout());
+        window.location.href = '/'
     }
 
     return (

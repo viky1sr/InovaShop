@@ -160,6 +160,28 @@ const deleteUser = expressAsyncHandler(async (req, res) => {
     }
 });
 
+const updateUser = expressAsyncHandler(async (req, res) => {
+    const user = await UserDB.findById(req.params.id)
+
+    if (user) {
+        user.name = req.body.name || user.name
+        user.email = req.body.email || user.email
+        user.isAdmin = req.body.isAdmin
+
+        const updatedUser = await user.save()
+
+        res.json({
+            _id: updatedUser._id,
+            name: updatedUser.name,
+            email: updatedUser.email,
+            isAdmin: updatedUser.isAdmin,
+        })
+    } else {
+        res.status(404)
+        throw new Error('User not found')
+    }
+});
+
 
 
 export {
@@ -169,5 +191,6 @@ export {
     updateUserProfile,
     getUser,
     getUserById,
-    deleteUser
+    deleteUser,
+    updateUser
 }
