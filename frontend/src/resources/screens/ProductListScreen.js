@@ -1,14 +1,15 @@
-import React, {useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import Swal from "sweetalert2";
 import {toast, ToastContainer} from "react-toastify";
 import LoadingBoxComponent from "../components/LoadingBoxComponent";
 import MessageBoxComponent from "../components/MessageBoxComponent";
-import {Button, Table, Row, Col} from "react-bootstrap";
+import {Button, Table, Row, Col, Modal, Form, NavDropdown} from "react-bootstrap";
 import { LinkContainer } from 'react-router-bootstrap';
-import {deleteProduct, listProducts} from "../actions/ProductActions";
+import {deleteProduct, listProducts } from "../actions/ProductActions";
 import {useDispatch, useSelector} from "react-redux";
+import {PRODUCT_CREATE_RESET} from "../constants/ProductConstants";
 
-const ProductListScreen = ({ history, match }) => {
+const ProductListScreen = ({ history, onHide }) => {
     const dispatch = useDispatch();
 
     const productList = useSelector( state => state.productList)
@@ -23,11 +24,13 @@ const ProductListScreen = ({ history, match }) => {
     // console.log(products);
 
     useEffect(() => {
-        if(userInfo) {
-            dispatch(listProducts())
-        } else {
+        dispatch({ type: PRODUCT_CREATE_RESET })
+
+        if(!userInfo.data.isAdmin) {
             history.push(`/login`)
         }
+        dispatch(listProducts())
+
     }, [ dispatch, history, userInfo, successDelete ]);
 
     const deleteHandler = (id) => {
@@ -56,10 +59,6 @@ const ProductListScreen = ({ history, match }) => {
         })
     }
 
-    const createProductHandler = (product) => {
-
-    }
-
 
     return (
         <>
@@ -68,9 +67,11 @@ const ProductListScreen = ({ history, match }) => {
                     <h1>Product</h1>
                 </Col>
                 <Col className="text-right">
-                    <Button className="my-3" onClick={createProductHandler}>
-                        <i className="fas fa-plush"> Create Product</i>
-                    </Button>
+                    <LinkContainer to='/product-create'>
+                        <Button>
+                            <i className="fas fa-plush"> Create Product</i>
+                        </Button>
+                    </LinkContainer>
                 </Col>
             </Row>
             <ToastContainer
