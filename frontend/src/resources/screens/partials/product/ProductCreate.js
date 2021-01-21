@@ -93,7 +93,7 @@ const ProductCreate = ({history}) => {
                 <h1>Create Product</h1>
                 {message && <MessageBoxComponent variant='danger'>{message}</MessageBoxComponent>}
                 {errorCreate && <MessageBoxComponent variant='danger'>{errorCreate}</MessageBoxComponent>}
-                {/*{loading && <LoadingBoxComponent />}*/}
+                {loadingCreate && <LoadingBoxComponent />}
                 <Form onSubmit={submitHandler}>
                     <Form.Group controlId='name'>
                         <Form.Label>Name</Form.Label>
