@@ -64,7 +64,7 @@ export const deleteProduct = (id) => async (dispatch, getState) => {
             }
         }
 
-        await axios.delete(`api/v1/products/${id}`, config)
+        await axios.delete(`/api/v1/products/${id}`, config)
 
         dispatch({
             type: PRODUCT_DELETE_SUCCESS
@@ -105,7 +105,7 @@ export const createProduct = (
             }
         }
 
-        const { data } = await axios.post(`api/v1/products`,{
+        const { data } = await axios.post(`/api/v1/products`,{
             name,
             price,
             image,

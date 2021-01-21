@@ -67,7 +67,7 @@ const ProductListScreen = ({ history, onHide }) => {
                     <h1>Product</h1>
                 </Col>
                 <Col className="text-right">
-                    <LinkContainer to='/product-create'>
+                    <LinkContainer to='/admin/product-create'>
                         <Button>
                             <i className="fas fa-plush"> Create Product</i>
                         </Button>

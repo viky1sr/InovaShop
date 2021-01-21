@@ -74,7 +74,7 @@ const ProductCreate = ({history}) => {
 
     return (
         <>
-            <Link className="btn btn-light my-3" to="/product-list">
+            <Link className="btn btn-light my-3" to="/admin/product-list">
                 Go Back
             </Link>
 
@@ -91,8 +91,8 @@ const ProductCreate = ({history}) => {
                     pauseOnHover={false}
                 />
                 <h1>Create Product</h1>
-                {/*{message && <MessageBoxComponent variant='danger'>{message}</MessageBoxComponent>}*/}
-                {/*{error && <MessageBoxComponent variant='danger'>{error}</MessageBoxComponent>}*/}
+                {message && <MessageBoxComponent variant='danger'>{message}</MessageBoxComponent>}
+                {errorCreate && <MessageBoxComponent variant='danger'>{errorCreate}</MessageBoxComponent>}
                 {/*{loading && <LoadingBoxComponent />}*/}
                 <Form onSubmit={submitHandler}>
                     <Form.Group controlId='name'>

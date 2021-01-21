@@ -35,8 +35,8 @@ function App() {
                 <Route path="/register" component={RegisterScreen}  />
                 <Route path="/cart/:id?" component={CartScreen} />
                 <Route path="/admin/user-list" component={UserListScreen} />
-                <Route path="/product-list" component={ProductListScreen} />
-                <Route path="/product-create" component={ProductCreate} />
+                <Route path="/admin/product-list" component={ProductListScreen} />
+                <Route path="/admin/product-create" component={ProductCreate} />
                 <Route path="/admin/:id/user-edit" component={UserEditScreen} />
             </Container>
         </main>

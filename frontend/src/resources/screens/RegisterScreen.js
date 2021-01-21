@@ -58,8 +58,6 @@ const RegisterScreen = ({ history, location }) => {
         });
     }
 
-    console.log(successRegister);
-
     return (
         <FormContainerComponent>
             <ToastContainer
