@@ -8,6 +8,7 @@ import {Button, Col, Form, Row} from "react-bootstrap";
 import {register} from "../../../actions/UserActions";
 import {createProduct, listProducts} from "../../../actions/ProductActions";
 import {PRODUCT_CREATE_RESET} from "../../../constants/ProductConstants";
+import {Link} from "react-router-dom";
 
 
 const ProductCreate = ({history}) => {
@@ -72,68 +73,74 @@ const ProductCreate = ({history}) => {
     }
 
     return (
-        <FormContainerComponent>
-            <ToastContainer
-                position="top-right"
-                autoClose={3000}
-                hideProgressBar={false}
-                newestOnTop
-                closeOnClick
-                rtl={false}
-                pauseOnFocusLoss
-                draggable
-                pauseOnHover={false}
-            />
-            <h1>Create Product</h1>
-            {/*{message && <MessageBoxComponent variant='danger'>{message}</MessageBoxComponent>}*/}
-            {/*{error && <MessageBoxComponent variant='danger'>{error}</MessageBoxComponent>}*/}
-            {/*{loading && <LoadingBoxComponent />}*/}
-            <Form onSubmit={submitHandler}>
-                <Form.Group controlId='name'>
-                    <Form.Label>Name</Form.Label>
-                    <Form.Control
-                        type='name'
-                        placeholder='Enter name'
-                        value={name}
-                        onChange={(e) => setName(e.target.value)}
-                    />
-                </Form.Group>
+        <>
+            <Link className="btn btn-light my-3" to="/product-list">
+                Go Back
+            </Link>
 
-                <Form.Group controlId='price'>
-                    <Form.Label>Price</Form.Label>
-                    <Form.Control
-                        type='price'
-                        placeholder='Enter price'
-                        value={price}
-                        onChange={(e) => setPrice(e.target.value)}
-                    />
-                </Form.Group>
+            <FormContainerComponent>
+                <ToastContainer
+                    position="top-right"
+                    autoClose={3000}
+                    hideProgressBar={false}
+                    newestOnTop
+                    closeOnClick
+                    rtl={false}
+                    pauseOnFocusLoss
+                    draggable
+                    pauseOnHover={false}
+                />
+                <h1>Create Product</h1>
+                {/*{message && <MessageBoxComponent variant='danger'>{message}</MessageBoxComponent>}*/}
+                {/*{error && <MessageBoxComponent variant='danger'>{error}</MessageBoxComponent>}*/}
+                {/*{loading && <LoadingBoxComponent />}*/}
+                <Form onSubmit={submitHandler}>
+                    <Form.Group controlId='name'>
+                        <Form.Label>Name</Form.Label>
+                        <Form.Control
+                            type='name'
+                            placeholder='Enter name'
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}
+                        />
+                    </Form.Group>
 
-                <Form.Group controlId='brand'>
-                    <Form.Label>Password</Form.Label>
-                    <Form.Control
-                        type='brand'
-                        placeholder='Enter brand'
-                        value={brand}
-                        onChange={(e) => setBrand(e.target.value)}
-                    />
-                </Form.Group>
+                    <Form.Group controlId='price'>
+                        <Form.Label>Price</Form.Label>
+                        <Form.Control
+                            type='price'
+                            placeholder='Enter price'
+                            value={price}
+                            onChange={(e) => setPrice(e.target.value)}
+                        />
+                    </Form.Group>
 
-                <Form.Group controlId='category'>
-                    <Form.Label>Confirm Password</Form.Label>
-                    <Form.Control
-                        type='category'
-                        placeholder='Enter category'
-                        value={category}
-                        onChange={(e) => setCategory(e.target.value)}
-                    />
-                </Form.Group>
+                    <Form.Group controlId='brand'>
+                        <Form.Label>Brand</Form.Label>
+                        <Form.Control
+                            type='brand'
+                            placeholder='Enter brand'
+                            value={brand}
+                            onChange={(e) => setBrand(e.target.value)}
+                        />
+                    </Form.Group>
 
-                <Button type='submit'  variant='primary'>
-                    Update
-                </Button>
-            </Form>
-        </FormContainerComponent>
+                    <Form.Group controlId='category'>
+                        <Form.Label>Category</Form.Label>
+                        <Form.Control
+                            type='category'
+                            placeholder='Enter category'
+                            value={category}
+                            onChange={(e) => setCategory(e.target.value)}
+                        />
+                    </Form.Group>
+
+                    <Button type='submit'  variant='primary'>
+                        Update
+                    </Button>
+                </Form>
+            </FormContainerComponent>
+        </>
     );
 }
 
