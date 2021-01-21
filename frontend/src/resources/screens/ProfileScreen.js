@@ -9,6 +9,7 @@ import { listMyOrders } from "../actions/OrderActions";
 import {toast, ToastContainer} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import { formatToTimeZone } from 'date-fns-timezone/dist'
+import {USER_UPDATE_RESET} from "../constants/UserConstants";
 
 const ProfileScreen = ({ history }) => {
     const [ name, setName ] = useState('');
@@ -41,7 +42,8 @@ const ProfileScreen = ({ history }) => {
         if(!userInfo) {
             history.push('/login')
         } else {
-            if(!user || !user.name) {
+            if(!user || !user.name || success) {
+                dispatch({ type: USER_UPDATE_RESET })
                 dispatch(getUserDetails('profile'))
                 dispatch(listMyOrders())
             } else {
@@ -49,7 +51,7 @@ const ProfileScreen = ({ history }) => {
                 setEmail(user.email)
             }
         }
-    },[dispatch, history, userInfo, user]);
+    },[dispatch, history, userInfo, user, success]);
 
     const ToastrSuccess = () => {
         toast('Update Successfully', {
@@ -62,9 +64,9 @@ const ProfileScreen = ({ history }) => {
             draggable: true,
             progress: undefined,
         })
-        setTimeout(() => {
-            window.location.reload(true)
-        },1000)
+        // setTimeout(() => {
+        //     window.location.reload(true)
+        // },1000)
     }
 
     const submitHandler = (e) => {
@@ -142,7 +144,7 @@ const ProfileScreen = ({ history }) => {
                         />
                     </Form.Group>
 
-                    <Button type='submit' variant='primary' disabled={success} onClick={ success ? ToastrSuccess() : ""} >
+                    <Button type='submit' variant='primary'  onClick={ success ? ToastrSuccess() : ""} >
                         Update
                     </Button>
                 </Form>

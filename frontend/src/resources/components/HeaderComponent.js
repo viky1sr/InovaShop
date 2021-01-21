@@ -21,6 +21,8 @@ const HeaderComponent = () => {
         },10000)
     }
 
+    // console.log(`testing dd ${userInfo.data}`)
+
     return (
         <Navbar bg="dark" variant="dark" expand="lg" collapseOnSelect >
             <Container>

@@ -17,12 +17,20 @@ const ProductScreen = ({ match, history }) => {
     // get data from redux and passing to view
     const { loading, error, product } = productDetails
 
+    const productDelete = useSelector(state => state.productDelete)
+    const { loading: loadingDelete, error: errorDelete, success: successDElete } = productDelete
+
     useEffect( () => {
         dispatch(detailsProducts(match.params.id))
     },[dispatch,match]);
 
     const addToCartHandler = () => {
         history.push(`/cart/${match.params.id}?qty=${qty}`);
+    }
+
+    const deleteHandler = (id) => {
+        dispatch(deleteHandler(id))
+        
     }
 
     return (

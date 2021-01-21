@@ -13,8 +13,10 @@ const DropDownPartialComponent = () => {
     const userDetails = useSelector((state) => state.userDetails)
     const { user } = userDetails
 
+    // console.log(userInfo.data.name)
+
     const userName = () => {
-        return !user.name ? userInfo.data.name : userInfo.data.name || user.name ;
+        return !user.name ? userInfo.data.name : user.name ;
     }
 
     const profileLink = () => {

@@ -52,7 +52,7 @@ const UserEditScreen = ({ match, history }) => {
                 setIsAdmin(user.isAdmin)
             }
         }
-    }, [dispatch, userId, user, successUpdate])
+    }, [history,dispatch, userId, user, successUpdate])
 
     const submitHandler = (e) => {
         e.preventDefault()
@@ -79,7 +79,7 @@ const UserEditScreen = ({ match, history }) => {
                 />
                 <h1>Edit User</h1>
                 {
-                    loading ? <LoadingBoxComponent /> : error ? <MessageBoxComponent variant='danger'>{error}</MessageBoxComponent> :
+                    loading || loadingUpdate ? <LoadingBoxComponent /> : error || errorUpdate? <MessageBoxComponent variant='danger'>{ error || errorUpdate}</MessageBoxComponent> :
                         (
                             <Form onSubmit={submitHandler}>
                                 <Form.Group controlId='name'>

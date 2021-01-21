@@ -8,7 +8,7 @@ const UserListPartialComponent = () => {
             <LinkContainer to='/admin/user-list'>
                 <NavDropdown.Item> Users </NavDropdown.Item>
             </LinkContainer>
-            <LinkContainer to='/admin/product-list'>
+            <LinkContainer to='/product-list'>
                 <NavDropdown.Item> Products </NavDropdown.Item>
             </LinkContainer>
             <LinkContainer to='/admin/order-list'>

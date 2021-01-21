@@ -5,7 +5,7 @@ import LoadingBoxComponent from "../components/LoadingBoxComponent";
 import MessageBoxComponent from "../components/MessageBoxComponent";
 import {Button, Table, Row, Col} from "react-bootstrap";
 import { LinkContainer } from 'react-router-bootstrap';
-import {listProducts} from "../actions/ProductActions";
+import {deleteProduct, listProducts} from "../actions/ProductActions";
 import {useDispatch, useSelector} from "react-redux";
 
 const ProductListScreen = ({ history, match }) => {
@@ -14,10 +14,13 @@ const ProductListScreen = ({ history, match }) => {
     const productList = useSelector( state => state.productList)
     const { loading, error, products } = productList
 
+    const productDelete = useSelector( state => state.productDelete)
+    const { loading: loadingDelete, error: errorDelete, success: successDelete } = productDelete
+
     const userLogin = useSelector((state) => state.userLogin)
     const { userInfo } = userLogin
 
-    console.log(products);
+    // console.log(products);
 
     useEffect(() => {
         if(userInfo) {
@@ -25,7 +28,7 @@ const ProductListScreen = ({ history, match }) => {
         } else {
             history.push(`/login`)
         }
-    }, [ dispatch, history, userInfo ]);
+    }, [ dispatch, history, userInfo, successDelete ]);
 
     const deleteHandler = (id) => {
         Swal.fire({
@@ -38,7 +41,7 @@ const ProductListScreen = ({ history, match }) => {
             confirmButtonText: 'Yes, delete it!'
         }).then((result) => {
             if (result.isConfirmed) {
-                // dispatch(delettUser(id))
+                dispatch(deleteProduct(id))
                 toast('Deleted Successfully', {
                     position: "top-right",
                     type: 'success',

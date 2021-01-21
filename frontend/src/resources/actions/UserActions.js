@@ -66,6 +66,7 @@ export const logout = () => (dispatch) => {
     dispatch({ type: USER_DETAILS_RESET });
     dispatch({ type: ORDER_LIST_MY_RESET });
     dispatch({ type: USER_LIST_RESET });
+    document.location.href = '/login'
 }
 
 export const register = ( name, email, password, confirm_password) => async (dispatch) => {
@@ -169,6 +170,13 @@ export const updateUserProfile = (user) => async (dispatch, getState) => {
             payload: data
         });
 
+        dispatch({
+            type: USER_LOGIN_SUCCESS,
+            payload: data
+        });
+
+        localStorage.setItem('userInfo.data', JSON.stringify(data));
+
     } catch (e) {
         dispatch({
             type: USER_UPDATE_FAIL,
@@ -227,7 +235,7 @@ export const delettUser = (id) => async (dispatch, getState) => {
             }
         }
 
-        const { data } = await axios.delete(`/api/v1/users/${id}`, config );
+        await axios.delete(`/api/v1/users/${id}`, config );
 
         dispatch({ type: USER_DELETE_SUCCESS });
 

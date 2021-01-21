@@ -125,7 +125,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVmYjRjNmViN
 
 {
   "price": 20,
-  "name" : "Bakso EDIT",
+  "name" : "Bakso EDIT25",
   "image" : "/images/sample.jpg",
   "brand": "Bakso Betawi",
   "category": "Bakso",
@@ -135,3 +135,9 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVmYjRjNmViN
 }
 
 ###
+
+# Delete Product By Admin
+DELETE http://localhost:5000/api/v1/products/5fe45600cb761e2b188c0a97
+Accept: */*
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVmYjRjNmViNjRkNDk2MjhlMGJmNWQ3ZiIsImlhdCI6MTYwODc4ODQ2MiwiZXhwIjoxNjExMzgwNDYyfQ.Gi6dNSCNxUjOv4FiqP1XuGj6GuQ9O1U46PZKET6EIGM
